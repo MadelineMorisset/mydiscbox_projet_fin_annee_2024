@@ -1,0 +1,19 @@
+/* button {
+  
+} */
+
+.log-buttons {
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    border-style: none;
+}
+
+.loginOrSigninPage-button {
+    background-color: #348aa8;
+    color: #fff;
+}
+
+.signin-button {
+    color: #348aa8;
+}
