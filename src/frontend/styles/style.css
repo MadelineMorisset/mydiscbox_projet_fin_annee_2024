@@ -1,0 +1,33 @@
+/* Fonts */
+.title {
+    font-family: "Alegreya Sans SC";
+}
+
+.text {
+    font-family: "Lora";
+}
+
+/* Couleurs */
+:root {
+    --backgroundBody_noirProfond: #131313;
+    --backgroundFloating_ebene: #1a1919;
+    --backgroundOthers_grisAnthracite: #282929;
+    --activeSelect_bleuGlacier: #348aa8;
+    --forms_grisPerle: #b0aeb0;
+    --grayedOut_grisBrume: #d0d7d8;
+    --defaultColor_blancPur: #ffffff;
+}
+
+/* Général */
+body,
+html {
+    background-color: var(--backgroundBody_noirProfond);
+    color: var(--defaultColor_blancPur);
+    text-align: center;
+}
+
+body {
+    padding: 38px 22px;
+    position: fixed;
+    width: 100%;
+}
