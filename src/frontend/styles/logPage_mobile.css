@@ -1,0 +1,126 @@
+/* Mobile first */
+* {
+    box-sizing: border-box;
+}
+/* --- logPage --- */
+#logPage_logoContainer {
+    display: block;
+    margin: 56px auto;
+}
+
+#logoPage_slogan {
+    font-size: 18px;
+    line-height: 2;
+}
+
+.logPage_footerContainer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 248px;
+}
+
+.logsPages_footerContainer {
+    position: relative;
+    height: 210px;
+    top: 160px;
+    width: 100%;
+}
+
+.signinPage_footerContainer {
+    position: relative;
+    height: 210px;
+    top: 5px;
+    width: 100%;
+}
+
+#logPage_otto {
+    width: 150px;
+    display: block;
+    margin: 0 auto;
+}
+
+.logPage_buttons {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 38px 22px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.loginPage_buttons {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    bottom: 0;
+}
+
+.signinPage_buttons {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    bottom: 0;
+}
+
+/* --- loginPage and signinPage--- */
+#logPage_returnIconContainer {
+    position: absolute;
+    left: 22px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form_input {
+    background-color: transparent;
+    color: var(--forms_grisPerle);
+    border: none;
+    border-bottom: var(--forms_grisPerle) solid;
+    width: 100%;
+    padding: 18px 5px;
+}
+
+/* --- loginPage --- */
+.headerContainer {
+    display: flex;
+    height: 86px;
+    align-items: center;
+}
+
+.fa-angle-left {
+    color: var(--defaultColor_blancPur);
+}
+
+.fa-angle-left:hover {
+    color: var(--grayedOut_grisBrume);
+}
+
+.mainContainer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 51px 22px;
+    width: 100%;
+}
+
+.error_message {
+    position: absolute;
+    width: 90%;
+    text-align: center;
+    top: 50%;
+}
