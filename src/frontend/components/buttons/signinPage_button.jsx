@@ -1,11 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import "../../styles/log_buttons.css";
 
 function SigninButton() {
+    const navigate = useNavigate();
+
     return (
         <>
             <button
-                type="submit"
-                className="loginOrSigninPage-button signinPage-button log-buttons title"
+                onClick={() => navigate("/signin")}
+                className="signin-button log-buttons title"
             >
                 Créer un compte
             </button>
