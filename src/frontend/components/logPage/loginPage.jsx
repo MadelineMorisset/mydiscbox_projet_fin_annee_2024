@@ -1,68 +1,127 @@
 // React imports
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+// Images
+import Logo from "../../assets/images/darkLogo.png";
+import Otto from "../../assets/images/Otto.png";
 // CSS
-import "./logPage_mobile.css";
+import "../../styles/logPage_mobile.css";
+// Font Awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 // Components
-import LogsFooter from "../footers/logsFooter/logs_footer";
-import LogsHeader from "../headers/logsHeader/logs_header";
 import LoginButton from "../buttons/login_button";
+import SigninPageButton from "../buttons/signinPage_button";
 
 function LoginPage() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [error, setError] = useState("");
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState("");
+    const [password, setpassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const handlerLogin = async (event) => {
         event.preventDefault();
+        setIsLoading(true);
 
-        const email = event.target.email.value;
-        const password = event.target.password.value;
+        const loginData = { email, password };
 
         try {
             const response = await fetch(
-                "../../../backend/logsPages/login.php",
+                "http://localhost/mydiscbox_projet_fin_annee_2024/src/backend/logsPages/login.php",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify(loginData),
                 }
             );
 
             const data = await response.json();
 
-            if (data.validation) {
-                setIsLoggedIn(true); // connexion réussie
+            if (response.ok && data.success) {
+                setErrorMessage("");
+                // Rediriger vers la page médiathèque - articles
+                navigate("/home");
             } else {
-                setError(data.errorMessage); // connexion échouée
+                setErrorMessage(data.message || "Erreur lors de la connexion");
             }
         } catch (error) {
-            console.error("Erreur : ", error);
-            setError("Erreur de connection, veuillez réessayer.");
+            setErrorMessage("Erreur de connection au serveur.");
+        } finally {
+            setIsLoading(false);
         }
     };
+
     return (
         <>
-            <LogsHeader />
+            <header className="headerContainer">
+                <div
+                    id="logPage_returnIconContainer"
+                    onClick={() => navigate(-1)}
+                >
+                    <FontAwesomeIcon
+                        icon={faAngleLeft}
+                        className="fa-solid fa-angle-left fa-xl"
+                    />
+                </div>
+
+                <Link to="/" id="logPage_logoContainer">
+                    <img
+                        src={Logo}
+                        alt="Logo de myDiscBox"
+                        width={86}
+                        height={86}
+                        className="logPage_logo"
+                    />
+                </Link>
+            </header>
+
             <main className="mainContainer">
+                {errorMessage && (
+                    <p className="error_message">{errorMessage}</p>
+                )}
+
                 <form onSubmit={handlerLogin} className="form">
                     <input
                         type="email"
                         id="email"
                         name="email"
                         placeholder="Adresse email"
-                        className="form_input title"
+                        value={email}
+                        className="form_input text"
+                        onChange={(event) => setEmail(event.target.value)}
+                        required
+                        autoComplete="email"
                     />
                     <input
                         type="password"
                         id="password"
                         name="password"
                         placeholder="Mot de passe"
-                        className="form_input title"
+                        value={password}
+                        className="form_input text"
+                        onChange={(event) => setpassword(event.target.value)}
+                        required
+                        autoComplete="current-password"
                     />
-                    {error && <p className="error_message">{error}</p>}
+
+                    <footer className="logsPages_footerContainer">
+                        <img
+                            src={Otto}
+                            alt="Otto la mascotte de myDiscBox"
+                            width={141}
+                            height={141}
+                            className="logPage_otto"
+                        />
+                        <div className="loginPage_buttons">
+                            {/* Appel des composants */}
+                            <LoginButton isLoading={isLoading} />
+                            <SigninPageButton />
+                        </div>
+                    </footer>
                 </form>
             </main>
-            <LogsFooter />
-            <LoginButton isLoggedIn={isLoggedIn} />
         </>
     );
 }

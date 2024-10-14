@@ -1,24 +1,13 @@
-// React imports
-import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
 // CSS
-import "./log_buttons.css";
+import "../../styles/log_buttons.css";
 import "../../styles/style.css";
 
-function LoginButton({ isLoggedIn }) {
-    const navigate = useNavigate();
-
-    const handleClickLogin = () => {
-        if (isLoggedIn) {
-            navigate("../mediaLibraryPages/mediaLibrary_articles.jsx");
-        } else {
-            navigate("./loginPage.jsx");
-        }
-    };
+// LoginButton sert à valider la connexion au compte utilisateur
+function LoginButton() {
     return (
         <>
             <button
-                onClick={handleClickLogin}
+                type="submit"
                 className="log-buttons loginOrSigninPage-button title"
             >
                 Se connecter
@@ -26,9 +15,5 @@ function LoginButton({ isLoggedIn }) {
         </>
     );
 }
-
-LoginButton.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
-};
 
 export default LoginButton;
