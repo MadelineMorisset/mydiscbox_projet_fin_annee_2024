@@ -86,6 +86,10 @@
     gap: 15px;
 }
 
+.form_label {
+    text-align: left;
+}
+
 .form_input {
     background-color: transparent;
     color: var(--forms_grisPerle);
