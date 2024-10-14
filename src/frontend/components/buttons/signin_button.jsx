@@ -1,5 +1,6 @@
 import "../../styles/log_buttons.css";
 
+// SigninButton sert à valider la création du compte utilisateur
 function SigninButton() {
     return (
         <>
