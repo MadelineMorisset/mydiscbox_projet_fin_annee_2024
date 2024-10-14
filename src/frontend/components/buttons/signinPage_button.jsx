@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "../../styles/log_buttons.css";
 
-function SigninButton() {
+// SigninButton sert à envoyer vers la page de création du compte utilisateur
+function SigninPageButton() {
     const navigate = useNavigate();
 
     return (
@@ -16,4 +17,4 @@ function SigninButton() {
     );
 }
 
-export default SigninButton;
+export default SigninPageButton;
