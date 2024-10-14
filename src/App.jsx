@@ -10,11 +10,9 @@ import "@fontsource-variable/lora";
 import LogPage from "./frontend/components/logPage/logPage";
 import LoginPage from "./frontend/components/logPage/loginPage";
 import SigninPage from "./frontend/components/logPage/signinPage";
-// import HomePage from './HomePage';
+import MediaLibraryArticles from "./frontend/components/mediaLibraryPages/mediaLibrary_articles";
 
 function App() {
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     return (
         <>
             <Router>
@@ -29,7 +27,7 @@ function App() {
                     <Route path="/signin" element={<SigninPage />} />
 
                     {/* Page de la médiathèque (HomePage) */}
-                    {/* <Route path="/home" element={isLoggedIn ? <HomePage /> : <LoginPage setIsLoggedIn={setIsLoggedIn} />} /> */}
+                    <Route path="/home" element={<MediaLibraryArticles />} />
                 </Routes>
             </Router>
         </>
