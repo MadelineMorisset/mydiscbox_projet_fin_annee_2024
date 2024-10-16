@@ -40,7 +40,7 @@ function SigninPage() {
             <main className="mainContainer">
                 <form
                     method="POST"
-                    action="http://localhost/mydiscbox_projet_fin_annee_2024/src/backend/logsPages/signin.php"
+                    action="http://localhost:5173/src/backend/logsPages/signin.php"
                     className="form"
                 >
                     <input
@@ -49,6 +49,7 @@ function SigninPage() {
                         name="email"
                         placeholder="Adresse email"
                         className="form_input text"
+                        required
                     />
                     <input
                         type="text"
@@ -63,6 +64,7 @@ function SigninPage() {
                         name="password"
                         placeholder="Mot de passe"
                         className="form_input text"
+                        required
                     />
                     <input
                         type="password"
@@ -70,6 +72,7 @@ function SigninPage() {
                         name="repassword"
                         placeholder="Vérifier le mot de passe"
                         className="form_input text"
+                        required
                     />
 
                     <footer className="logsPages_footerContainer signinPage_footerContainer">

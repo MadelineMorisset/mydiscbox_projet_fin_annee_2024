@@ -26,16 +26,18 @@ function LoginPage() {
         setIsLoading(true);
 
         const loginData = { email, password };
+        console.log(loginData);
 
         try {
             const response = await fetch(
-                "http://localhost/mydiscbox_projet_fin_annee_2024/src/backend/logsPages/login.php",
+                "http://localhost:5173/src/backend/logsPages/login.php",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(loginData),
                 }
             );
+            console.table(response);
 
             const data = await response.json();
 
@@ -46,8 +48,8 @@ function LoginPage() {
             } else {
                 setErrorMessage(data.message || "Erreur lors de la connexion");
             }
-        } catch (error) {
-            setErrorMessage("Erreur de connection au serveur.");
+        } catch (errorMessage) {
+            setErrorMessage("Erreur de connection au serveur.".errorMessage);
         } finally {
             setIsLoading(false);
         }

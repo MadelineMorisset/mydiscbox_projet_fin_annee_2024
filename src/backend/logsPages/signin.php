@@ -3,7 +3,7 @@
     session_start();
 
     // Inclut le fichier de connexion à la base de données
-    require_once("/laragon/www/mydiscbox_projet_fin_annee_2024/src/backend/db_connection.php");
+    require_once("../db_connection.php");
     
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Récupération des données du formulaire

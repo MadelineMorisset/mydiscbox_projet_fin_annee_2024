@@ -3,14 +3,40 @@ session_start();
 
 // Configurer l'en-tête de réponse en JSON
 header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: same-origin"); // Permet toutes les origines (CORS)
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
 // Connexion à la base de données (MySQL)
-$host = 'localhost';
-$user = 'root';
-$pass = 'V3nDta!';
-$db = 'mydiscbox';
+class Connection {
+    private $host = 'localhost';
+    private $user = 'root';
+    private $pass = 'V3nDta!';
+    private $db = 'mydiscbox';
+    private $connection;
 
-$db_connection = new mysqli($host, $user, $pass, $db);
+    public function getConnection() {
+        $this->connection = null;
+
+        try {
+            $this->connection = new PDO("mysql:host=". $this->host .";dbname=".$this->db, $this->user, $this->pass);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+            // "setAttribute()" est utilisé pour configurer des options PDO :
+            // "ATTR_ERRMODE" est définit sur "ERRMODE_EXCEPTION" pour que les erreurs de DB lancent automatiquement des exceptions 
+            // Définition => Un exception est un mécanisme pour gérer les erreurs de manière contrôlée)
+        } catch (PDOException $e) {
+            echo "La connexion a échouée ..." . $e->getMessage();
+        }
+        return $this->connection;
+    }
+}
+
+// $host = 'localhost';
+// $user = 'root';
+// $pass = 'V3nDta!';
+// $db = 'mydiscbox';
+
+// $db_connection = new mysqli($host, $user, $pass, $db);
 
 if ($db_connection->connect_error) {
     http_response_code(500); // Internal Server Error - Le serveur informe qu’il y a un problème, mais il n’est pas sûr de la cause du problème
@@ -18,10 +44,7 @@ if ($db_connection->connect_error) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Lecture des données JSON envoyées
-    $data = json_decode(file_get_contents("php://input"), true);
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
@@ -41,8 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($connection_user->num_rows > 0) {
         $user = $connection_user->fetch_assoc();
         $hash = $user['password_user'];
-    
-        if (password_verify($password, $hash)) {
+        $hashed_password = password_hash($hash, PASSWORD_DEFAULT);
+        var_dump($hashed_password, $password);
+        die;
+        if (password_verify($password, $hashed_password)) {
             $_SESSION['logged_in'] = true;
             $_SESSION['login'] = $email;
         
