@@ -4,7 +4,7 @@ session_start();
 // Configurer l'en-tête de réponse en JSON
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: same-origin"); // Permet toutes les origines (CORS)
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Methods: POST, GET");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // Connexion à la base de données (MySQL)
@@ -25,7 +25,7 @@ class Connection {
             // "ATTR_ERRMODE" est définit sur "ERRMODE_EXCEPTION" pour que les erreurs de DB lancent automatiquement des exceptions 
             // Définition => Un exception est un mécanisme pour gérer les erreurs de manière contrôlée)
         } catch (PDOException $e) {
-            echo "La connexion a échouée ..." . $e->getMessage();
+            echo json_encode(["success" => false, "message" => "Erreur de connexion : ".$e->getMessage()]);
         }
         return $this->connection;
     }
