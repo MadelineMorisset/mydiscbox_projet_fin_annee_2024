@@ -1,11 +1,21 @@
 <?php
 session_start();
 
+// Inclut le fichier de connexion à la base de données
+require_once("../db_connection.php");
+
 // Configurer l'en-tête de réponse en JSON
 header('Content-Type: application/json');
-header("Access-Control-Allow-Origin: same-origin"); // Permet toutes les origines (CORS)
+// Permet toutes les origines (CORS)
+header("Access-Control-Allow-Origin: http://localhost:5173");
 header("Access-Control-Allow-Methods: POST, GET");
 header("Access-Control-Allow-Headers: Content-Type");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // Si la requête est une pré-vérification
+    http_response_code(204); // No Content
+    exit();
+}
 
 // Connexion à la base de données (MySQL)
 class Connection {
@@ -31,22 +41,16 @@ class Connection {
     }
 }
 
-// $host = 'localhost';
-// $user = 'root';
-// $pass = 'V3nDta!';
-// $db = 'mydiscbox';
-
-// $db_connection = new mysqli($host, $user, $pass, $db);
-
-if ($db_connection->connect_error) {
-    http_response_code(500); // Internal Server Error - Le serveur informe qu’il y a un problème, mais il n’est pas sûr de la cause du problème
-    echo json_encode(["success" => false, "message" => "La connexion à la base de données a échouée."]);
-    exit();
-}
+$db_connection = (new Connection())->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
+    // Récupérer le JSON de la requête
+    $input = file_get_contents('php://input');
+    // True pour obtenir un tableau associatif
+    $data = json_decode($input, true);
+
+    $email = $data['email'] ?? '';
+    $password = $data['password'] ?? '';
 
     if (empty($email) || empty($password)) {
         http_response_code(400); // Bad Request - Erreur côté client
@@ -57,17 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $connection_request = $db_connection->prepare('SELECT password_user
                                                    FROM utilisateur 
                                                    WHERE email_user = ?');
-    $connection_request->bind_param("s", $email);
-    $connection_request->execute();
-    $connection_user = $connection_request->get_result();
+    $connection_request->execute([$email]);
+    $user = $connection_request->fetch(PDO::FETCH_ASSOC);
 
-    if ($connection_user->num_rows > 0) {
-        $user = $connection_user->fetch_assoc();
+    if ($user) {
         $hash = $user['password_user'];
-        $hashed_password = password_hash($hash, PASSWORD_DEFAULT);
-        var_dump($hashed_password, $password);
-        die;
-        if (password_verify($password, $hashed_password)) {
+        
+        if (password_verify($password, $hash)) {
             $_SESSION['logged_in'] = true;
             $_SESSION['login'] = $email;
         
@@ -84,65 +84,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     http_response_code(405); // Method Not Allowed – Le serveur comprend la méthode demandée, mais la ressource cible ne la prend pas en charge
     echo json_encode(["success" => false , "message" => "Méthode non autorisée"]);
 }
-
-$db_connection->close();
-
-// // Lecture des données JSON envoyées
-// $data = json_decode(file_get_contents("php://input"), true);
-
-// $email = $db_connection->real_escape_string($data->email);
-// $password = $data->password;
-
-// Requête pour vérifier les idenfiants
-// $query = "SELECT * FROM utilisateur WHERE email='$email'";
-// $result = $db_connection->query($query);²
-
-// if ($result->num_rows > 0) {
-//     $user = $result->fetch_assoc();
-
-//     // Vérifier mot de passe
-//     if (password_verify($password, $user['password'])) {
-//         echo json_encode(["success" => true, "message" => "Connexion réussie", "user" => $user['username']]);
-//     } else {
-//         echo json_encode(["success" => false, "message" => "Mot de passe invalide"]);
-//     }
-// } else {
-//     echo json_encode(["success" => true, "message" => "Identifiant invalide"]);
-// }
-
-
-// // Si l'utilisateur a cliqué sur le bouton Valider
-// if (!empty($email) && !empty($password)) {
-
-//     // Préparation d'une requête pour vérifier le login et le mot de passe saisis existent
-//     $insertion = $db_connection->prepare("SELECT *
-//                                           FROM utilisateur
-//                                           WHERE email_user=?");
-
-//     // Exécution de la requête avec l'email et le mot de passe fournis
-//     $insertion->execute([$email]);
-//     // Récupèration des résultats de la requête sous forme de tableau
-//     $user = $insertion->fetch(PDO::FETCH_ASSOC);
-    
-//     // Vérifier la connexion
-//     if ($user && password_verify($password, $user["password_user"])) {
-//         // Connexion réussie
-//          $_SESSION["email_user"] = ($data["email_user"]);
-//          $_SESSION["authorize"] = "oui";
-
-//         // Redirection vers la page de connexion (si l'insertion du nouvel utilisateur est réussie)
-//         echo json_encode(["validation" => true]);
-//     } else {      
-//         // Connexion échouée
-//         echo json_encode([
-//             "validation" => false, 
-//             "errorMessage" => "L'adresse mail ou le mot de passe est incorrect."
-//         ]);
-//     }
-// } else {
-//     echo json_encode([
-//         "validation" => false, 
-//         "errorMessage" => "Veuillez saisir une adresse mail et un mot de passe."
-//     ]);
-// }
-?>

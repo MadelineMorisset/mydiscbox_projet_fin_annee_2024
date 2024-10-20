@@ -26,30 +26,30 @@ function LoginPage() {
         setIsLoading(true);
 
         const loginData = { email, password };
-        console.log(loginData);
 
         try {
             const response = await fetch(
-                "http://localhost:5173/src/backend/logsPages/login.php",
+                "http://localhost/mydiscbox_projet_fin_annee_2024/src/backend/logsPages/login.php",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(loginData),
                 }
             );
-            console.table(response);
 
             const data = await response.json();
 
-            if (response.ok && data.success) {
+            if (response.ok) {
                 setErrorMessage("");
                 // Rediriger vers la page médiathèque - articles
                 navigate("/home");
             } else {
-                setErrorMessage(data.message || "Erreur lors de la connexion");
+                setErrorMessage(data.message);
             }
-        } catch (errorMessage) {
-            setErrorMessage("Erreur de connection au serveur.".errorMessage);
+        } catch (error) {
+            setErrorMessage(
+                "Erreur de connection au serveur. " + error.message
+            );
         } finally {
             setIsLoading(false);
         }
