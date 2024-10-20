@@ -2,10 +2,17 @@
     // Démarrer une session
     session_start();
 
+    // Configurer l'en-tête de réponse en JSON
+    header('Content-Type: application/json');
+    // Permet toutes les origines (CORS)
+    header("Access-Control-Allow-Origin: http://localhost:5173");
+    header("Access-Control-Allow-Methods: POST, GET");
+    header("Access-Control-Allow-Headers: Content-Type");
+
     // Inclut le fichier de connexion à la base de données
     require_once("../db_connection.php");
     
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Récupération des données du formulaire
         $email=$_POST["email"] ?? '';
         $nickname=$_POST["nickname"] ?? '';
@@ -53,21 +60,19 @@
                     if ($insertion->execute([$email, $nickname, $hashed_password, 0])) {
                         // Redirection vers la page de connexion 
                         // (si l'insertion du nouvel utilisateur est réussie)
-                        header("location:login.php");
+                        echo json_encode(["success" => true, "message" => "Compte créé avec succès."]);
                         exit();
                     } else {
-                        $error = "Une erreur est survenue lors de la création du compte ...";
+                        echo json_encode(["success" => false, "message" => "Erreur lors de la création du compte."]);
                     }
                 } catch (PDOException $e) {
-                    $error = "Erreur d'insertion : " . $e->getMessage();
+                    echo json_encode(["success" => false, "message" => "Erreur d'insertion : " . $e->getMessage()]);
                 }  
             }
         }
     }
 
     if (!empty($error)) {
-        echo "<p>$error</p>";
+        echo json_encode(["success" => false, "message" => $error]);
     }
-
-    
 ?>

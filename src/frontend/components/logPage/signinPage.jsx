@@ -1,4 +1,5 @@
 // React imports
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 // Images
 import Logo from "../../assets/images/darkLogo.png";
@@ -13,6 +14,28 @@ import SigninButton from "../buttons/signin_button";
 
 function SigninPage() {
     const navigate = useNavigate();
+
+    const [message, setMessage] = useState("");
+
+    const handlerSignin = async (event) => {
+        event.preventDefault();
+
+        // Récuperer les données du formulaire
+        const signinData = new FormData(event.target);
+
+        const response = await fetch(
+            "http://localhost/mydiscbox_projet_fin_annee_2024/src/backend/logsPages/signin.php",
+            {
+                method: "POST",
+                body: signinData,
+            }
+        );
+
+        // Convertir la réponse en JSON
+        const data = await response.json();
+
+        setMessage(data.message);
+    };
 
     return (
         <>
@@ -39,10 +62,17 @@ function SigninPage() {
 
             <main className="mainContainer">
                 <form
+                    onSubmit={handlerSignin}
                     method="POST"
-                    action="http://localhost:5173/src/backend/logsPages/signin.php"
+                    action="http://localhost/mydiscbox_projet_fin_annee_2024/src/backend/logsPages/signin.php"
                     className="form"
                 >
+                    {message && <p>{message}</p>}
+
+                    {/* <div className="form_container">
+                        <label htmlFor="email" className="form_label text">
+                            Adresse email *
+                        </label> */}
                     <input
                         type="email"
                         id="email"
@@ -51,6 +81,11 @@ function SigninPage() {
                         className="form_input text"
                         required
                     />
+                    {/*
+                    <div>
+                        <label htmlFor="nickname" className="form_label text">
+                            Pseudonyme (facultatif)
+                        </label> */}
                     <input
                         type="text"
                         id="nickname"
@@ -58,6 +93,11 @@ function SigninPage() {
                         placeholder="Pseudonyme"
                         className="form_input text"
                     />
+                    {/* </div>
+                    <div>
+                        <label htmlFor="password" className="form_label text">
+                            Mot de passe *
+                        </label> */}
                     <input
                         type="password"
                         id="password"
@@ -66,6 +106,11 @@ function SigninPage() {
                         className="form_input text"
                         required
                     />
+                    {/* </div>
+                    <div>
+                        <label htmlFor="repassword" className="form_label text">
+                            Vérifier le mot de passe *
+                        </label> */}
                     <input
                         type="password"
                         id="repassword"
@@ -74,6 +119,7 @@ function SigninPage() {
                         className="form_input text"
                         required
                     />
+                    {/* </div> */}
 
                     <footer className="logsPages_footerContainer signinPage_footerContainer">
                         <img
