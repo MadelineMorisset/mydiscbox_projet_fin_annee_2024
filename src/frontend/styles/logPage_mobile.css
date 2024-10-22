@@ -92,9 +92,9 @@
 
 .form_input {
     background-color: transparent;
-    color: var(--forms_grisPerle);
+    color: var(--forms_pearlGray);
     border: none;
-    border-bottom: var(--forms_grisPerle) solid;
+    border-bottom: var(--forms_pearlGray) solid;
     width: 100%;
     padding: 18px 5px;
 }
@@ -107,11 +107,11 @@
 }
 
 .fa-angle-left {
-    color: var(--defaultColor_blancPur);
+    color: var(--defaultColor_pureWhite);
 }
 
 .fa-angle-left:hover {
-    color: var(--grayedOut_grisBrume);
+    color: var(--grayedOut_mistGray);
 }
 
 .mainContainer {

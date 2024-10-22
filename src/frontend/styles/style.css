@@ -7,22 +7,24 @@
     font-family: "Lora";
 }
 
-/* Couleurs */
+/* Variables */
 :root {
-    --backgroundBody_noirProfond: #131313;
-    --backgroundFloating_ebene: #1a1919;
-    --backgroundOthers_grisAnthracite: #282929;
-    --activeSelect_bleuGlacier: #348aa8;
-    --forms_grisPerle: #b0aeb0;
-    --grayedOut_grisBrume: #d0d7d8;
-    --defaultColor_blancPur: #ffffff;
+    /* Couleurs */
+    --backgroundBody_deepBlack: #131313;
+    --backgroundFloating_ebony: #1a1919;
+    --backgroundOthers_anthraciteGray: #282929;
+    --activeSelect_iceBlue: #348aa8;
+    --forms_pearlGray: #b0aeb0;
+    --grayedOut_mistGray: #d0d7d8;
+    --defaultColor_pureWhite: #ffffff;
+    /* Text */
 }
 
 /* Général */
 body,
 html {
-    background-color: var(--backgroundBody_noirProfond);
-    color: var(--defaultColor_blancPur);
+    background-color: var(--backgroundBody_deepBlack);
+    color: var(--defaultColor_pureWhite);
     text-align: center;
 }
 
