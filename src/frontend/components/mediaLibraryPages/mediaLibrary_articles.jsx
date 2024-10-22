@@ -24,16 +24,12 @@ function MediaLibraryArticles() {
                             <a href="/home/articles">Articles</a>
                         </li>
                         <li>
-                            <a
-                                href="/home/shelves"
-                                hidden
-                                alt="À ajouter en V4"
-                            >
+                            <a href="/home/shelves" alt="À ajouter en V4">
                                 Étagères
                             </a>
                         </li>
                         <li>
-                            <a href="/home/genres" hidden alt="À ajouter en V3">
+                            <a href="/home/genres" alt="À ajouter en V3">
                                 Genres
                             </a>
                         </li>
@@ -50,22 +46,12 @@ function MediaLibraryArticles() {
                             <a href="/home">Médiathèque</a>
                         </li>
                         <li>
-                            <a
-                                href="/home/add-scann"
-                                hidden
-                                alt="À ajouter en V4"
-                            >
-                                Ajout article
-                            </a>
+                            {/* Ajout manuel en V1; Ajout par scanne du produit en V2 */}
+                            <a href="/home/add-scan">Ajout article</a>
                         </li>
                         <li>
-                            <a
-                                href="/home/account"
-                                hidden
-                                alt="À ajouter en V3"
-                            >
-                                Compte
-                            </a>
+                            {/* À ajouter en V3 */}
+                            <a href="/home/account">Compte</a>
                         </li>
                     </ul>
                 </nav>
